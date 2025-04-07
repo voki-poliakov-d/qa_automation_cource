@@ -42,6 +42,4 @@ def calculate():
         else:
             print("Ошибка: некорректный ввод. Попробуйте снова.")
 
-
-
 calculate()
