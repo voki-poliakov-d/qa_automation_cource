@@ -1,3 +1,5 @@
+import re
+
 def add (a, b= None):
     if b is None:
         if isinstance(a, (list, tuple, set)):
@@ -13,8 +15,6 @@ def multiply (a, b):
 
 def divide (a, b):
     return a / b
-
-import re
 
 operations = {
     '+': add,
@@ -45,8 +45,3 @@ def calculate():
 
 
 calculate()
-
-2
-
-
-
