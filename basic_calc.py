@@ -4,7 +4,7 @@ from selenium.webdriver.common.devtools.v113.debugger import resume
 
 class BasicCalc:
     @staticmethod
-    def add (a, b= None):
+    def add(a, b=None):
         if b is None:
             if isinstance(a, (list, tuple, set)):
                 return sum(a)
@@ -12,46 +12,39 @@ class BasicCalc:
         return a + b
 
     @staticmethod
-    def subtract (a, b):
+    def subtract(a, b):
         return a - b
 
     @staticmethod
-    def multiply (a, b):
+    def multiply(a, b):
         return a * b
 
     @staticmethod
-    def divide (a, b):
+    def divide(a, b):
         return a / b
+
 
 class MemoryCalc(BasicCalc):
     def __init__(self):
         self.memory_stack = []
 
     def add(self, a, b=None):
-        if b is None:
-            b = self._get_memory()
-        result = super().add(a, b)
-        self.memo_plus(result)
-        return  result
+        return self._calc_with_memory(super().add, a, b)
 
     def subtract(self, a, b=None):
-        if b is None:
-            b = self._get_memory()
-        result = super().subtract(a, b)
-        self.memo_plus(result)
-        return result
+        return self._calc_with_memory(super().subtract, a, b)
 
     def multiply(self, a, b=None):
-        if b is None:
-            b = self._get_memory()
-        result = super().multiply(a, b)
-        self.memo_plus(result)
-        return result
+        return self._calc_with_memory(super().multiply, a, b)
 
     def divide(self, a, b=None):
+        return self._calc_with_memory(super().divide, a, b)
+
+    def _calc_with_memory(self, operation, a, b):
+        """Выполняет операцию, используя значение из памяти, если b не передано."""
         if b is None:
-            b =self._get_memory()
-        result = super().divide(a, b)
+            b = self.memo_minus()
+        result = operation(a, b)
         self.memo_plus(result)
         return result
 
@@ -64,14 +57,17 @@ class MemoryCalc(BasicCalc):
             self.memory_stack.append(value)
 
     def memo_minus(self):
-        """Извлекает последнее значение из памяти."""
+        """Извлекает (и удаляет) последнее значение из памяти."""
         if self.memory_stack:
             return self.memory_stack.pop()
-        else:
-            return "Error, stack is empty"
+
+    raise IndexError("Memory stack is empty")
 
     def _get_memory(self):
-        return self.memory_stack[-1] if self.memory_stack else 0
+        """Просто читает значение из вершины памяти, не удаляя."""
+        if self.memory_stack:
+            return self.memory_stack[-1]
+        return 0
 
     @property
     def memory_top(self):
