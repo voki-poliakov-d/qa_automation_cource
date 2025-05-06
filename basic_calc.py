@@ -60,14 +60,7 @@ class MemoryCalc(BasicCalc):
         """Извлекает (и удаляет) последнее значение из памяти."""
         if self.memory_stack:
             return self.memory_stack.pop()
-
     raise IndexError("Memory stack is empty")
-
-    def _get_memory(self):
-        """Просто читает значение из вершины памяти, не удаляя."""
-        if self.memory_stack:
-            return self.memory_stack[-1]
-        return 0
 
     @property
     def memory_top(self):
