@@ -99,3 +99,4 @@ class MemoryCalc(BasicCalc):
     def memory_top(self):
         """Read-only свойство — вершина памяти."""
         return self.memory_stack[-1] if self.memory_stack else 0
+
